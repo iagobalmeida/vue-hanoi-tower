@@ -74,10 +74,25 @@
         <div class="col text-center" v-on:click="handleInput('R')">
           <div class="p-2 shadow card mb-3 d-block ">
             <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">R</div>  
+              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">D</div>  
               <div class="d-flex justify-content-start align-items-center flex-column">
                 <p class="mb-0">&nbsp; Remover Torre</p>
                 <small class=" fw-light">Reinicia o jogo</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row g-3">
+
+        <div class="col text-center" v-on:click="handleInput('R')">
+          <div class="p-2 shadow card mb-3 d-block ">
+            <div class="d-flex justify-content-center align-items-center flex-row">
+              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">R</div>  
+              <div class="d-flex justify-content-start align-items-center flex-column">
+                <p class="mb-0">&nbsp; Reiniciar o jogo</p>
               </div>
             </div>
           </div>
