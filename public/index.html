@@ -1,17 +1,90 @@
-<!DOCTYPE html>
-<html lang="">
+<!doctype html>
+<html lang="en">
   <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <style>
+      body {
+        background: #333;
+        color: white;
+      }
+      .card {
+        background: #333;
+        border: 1px solid #777;
+        color: white;
+      }
+      .piece {
+        border: 2px solid #222 !important;
+      }
+      .w-10 {
+        width: 10%;
+      }
+      .w-20 {
+        width: 20%;
+      }
+      .w-30 {
+        width: 30%;
+      }
+      .w-40 {
+        width: 40%;
+      }
+      .w-50 {
+        width: 50%;
+      }
+      .w-60 {
+        width: 60%;
+      }
+      .w-70 {
+        width: 70%;
+      }
+      .w-80 {
+        width: 80%;
+      }
+      .w-90 {
+        width: 90%;
+      }
+      .w-100 {
+        width: 100%;
+      }
+      .tower {
+        min-height: 300px;
+        position: relative;
+      }
+      .selected {
+        margin-bottom: 60px !important;
+      }
+      .card {
+        transition:  all 125ms ease-in-out;
+        cursor: pointer;
+      }
+      .card:hover {
+        transform: scale(1.02);
+        background-color: #353535;
+      }
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
   </body>
 </html>
