@@ -24,22 +24,15 @@
       </div>
 
       <div class="row  g-1 g-md-3">
-
-        <div class="col" v-for="tower, tower_index in towers" :key="`tower_${tower_index}`" v-on:click="handleInput(keys.towers[tower_index])">
-
-          <div :class="`p-2 shadow card mb-3 d-none d-md-block ${tower.includes(selected)?`bg-${colors[selected-1]} text-light border-light`: ''}`">
-            <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">{{keys.towers[tower_index] == ' ' ? '␣' : keys.towers[tower_index]}}</div>  
-              <div class="d-flex justify-content-start align-items-center flex-column">
-                <p class="mb-0">&nbsp; {{selected >= 0 ? '⇣' : '⇡'}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="card shadow p-md-2 d-flex justify-content-end align-items-center flex-column tower">
-            <div v-for="piece, piece_index in tower" :key="`tower_${tower_index}_piece_${piece_index}`" :class="`shadow mb-1 rounded bg-gradient w-${piece}0 bg-${colors[piece-1]} ${selected == piece ? 'selected' : ''}`" style="height:20px;"></div>
-          </div>
-        </div>
-
+        <Tower
+          v-for="tower, towerIndex in towers"
+          :key="`tower_${towerIndex}`"
+          v-on:click="handleInput(keys.towers[towerIndex])"
+          :keyName="keys.towers[towerIndex] == ' ' ? '␣' : keys.towers[towerIndex]"
+          :pieces="tower"
+          :selected="selected"
+          :towerIndex="towerIndex"
+        ></Tower>
       </div>
 
       <div class="row g-3 mt-1">
@@ -178,7 +171,7 @@
 
       <div class="d-flex flex-row justify-content-between align-items-center mt-5 mb-5">
         <div class="col align-items-center d-flex flex-row justify-content-around mb-5" v-for="index in pieces" :key="`color_${index}`">
-          <div :class="`bg-${colors[index]} mr-1 bg-gradient rounded shadow`" style="width: 20px; height: 20px;"></div>
+          <div :class="`bg-${index+1} mr-1 bg-gradient rounded shadow`" style="width: 20px; height: 20px;"></div>
           <h5 v-if="index < pieces" class="mr-2 mb-0"> ⇢ </h5>
         </div>
       </div>
@@ -186,7 +179,9 @@
 </template>
 
 <script>
+import Tower from './components/Tower.vue';
 
+// Default hotkeys mapping
 function defaultKeys(tryLocalStorage = false) {
   let keys = {
     towers:       ['1','2','3'],
@@ -203,7 +198,6 @@ function loadData(pieces, keys) {
   return {
     // Tower & Pieces
     pieces: pieces,
-    colors: ['primary', 'success', 'warning', 'danger', 'info', 'secondary', 'dark', 'light'],
     towerNames: ['Left', 'Center', 'Right'],
     towers: [
       Array.from({length: pieces}, (_, i) => i + 1), // returns [1, 2, 3, 4, 5, ... pieces]
@@ -226,6 +220,9 @@ function loadData(pieces, keys) {
 
 export default {
   name: 'Hanoi Tower',
+  components: {
+    Tower
+  },
   data: () => (loadData(7, defaultKeys())),
   // KeyDown event association
   created() {
@@ -305,7 +302,7 @@ export default {
 
       // Adding pieces
       if(key == this.keys.addTower) {
-        this.pieces = this.pieces < this.colors.length ? this.pieces + 1 : this.pieces;
+        this.pieces = this.pieces < 10 ? this.pieces + 1 : this.pieces;
         return this.restart(); 
       }
 
@@ -343,4 +340,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 </style>
