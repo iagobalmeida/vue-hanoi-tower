@@ -106,31 +106,31 @@
               <div class="modal-body">
                 <div class="mb-3 form-group">
                   <label>Selecionar/Posicionar Torre Esquerda</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[0]">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[0]" v-uppercase>
                 </div>
                 <div class="mb-3 form-group">
                   <label>Selecionar/Posicionar Torre Centro</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[1]">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[1]" v-uppercase>
                 </div>
                 <div class="mb-3 form-group">
                   <label>Selecionar/Posicionar Torre Direita</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[2]">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[2]" v-uppercase>
                 </div>
                 <div class="mb-3 form-group">
                   <label>Desfazer movimento</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.undoMovement">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.undoMovement" v-uppercase>
                 </div>
                 <div class="mb-3 form-group">
                   <label>Adicionar peça</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.addTower">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.addTower" v-uppercase>
                 </div>
                 <div class="mb-3 form-group">
                   <label>Remover peça</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.deleteTower">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.deleteTower" v-uppercase>
                 </div>
                 <div class="mb-3 form-group">
                   <label>Reiniciar o jogo</label>
-                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.resetGame">
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.resetGame" v-uppercase>
                 </div>
               </div>
               <div class="modal-footer d-flex justify-content-between flex-row align-items-center">
@@ -202,6 +202,15 @@ export default {
   data: () => (loadData(7, defaultKeys())),
   // KeyDown event association
   created() {
+    //attempt to load from localStorage
+    try{
+      let localGameJSON = localStorage.getItem('hanoiGame') || null;
+      let localGame     = localGameJSON ? JSON.parse(localGameJSON) : null;
+      if(localGame) { Object.assign(this.$data, localGame); }
+    }catch(error) {
+      console.log(error.message);
+    }
+
     document.addEventListener('keydown', (event) => {
       let key           = event.key.toUpperCase();
       let possibleKeys  = Object.values(this.keys).concat(Object.values(this.keys.towers));
@@ -211,6 +220,12 @@ export default {
         this.handleInput(key);
       }
     });
+
+    window.onbeforeunload = () => {
+      let localGame = JSON.stringify(this.$data);
+      console.log(localGame);
+      localStorage.setItem('hanoiGame',  localGame);
+    }
   },
   methods: {
     setDefaultKeys() {
