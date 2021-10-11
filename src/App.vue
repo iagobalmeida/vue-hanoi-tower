@@ -50,52 +50,26 @@
       </div>
 
       <div class="row g-3 mt-1">
-
-        <div class="col text-center" v-on:click="handleInput(keys.undoMovement)">
-          <div class="p-2 shadow card mb-3 d-block ">
-            <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted w-10 d-none d-md-block">
-                {{keys.undoMovement == ' ' ? '␣' : keys.undoMovement}}  
-              </div>  
-              <div class="d-flex justify-content-start align-items-center flex-column">
-                <p class="mb-0">&nbsp; Desfazer último movimento</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <KeyButton
+          v-on:handleClick="handleInput(keys.undoMovement)"
+          :keyName="keys.undoMovement"
+          title="Desfazer último movimento"
+        />
       </div>
 
       <div class="row g-3">
-
-        <div class="col text-center" v-on:click="handleInput(keys.addTower)">
-          <div class="p-2 shadow card mb-3 d-block ">
-            <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">
-                {{keys.addTower == ' ' ? '␣' : keys.addTower}}  
-              </div>  
-              <div class="d-flex justify-content-start align-items-center flex-column">
-                <p class="mb-0">&nbsp; Adicionar torre</p>
-                <small class=" fw-light">Reinicia o jogo</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col text-center" v-on:click="handleInput(keys.deleteTower)">
-          <div class="p-2 shadow card mb-3 d-block ">
-            <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">
-                {{keys.deleteTower == ' ' ? 'D' : keys.deleteTower}}                  
-              </div>  
-              <div class="d-flex justify-content-start align-items-center flex-column">
-                <p class="mb-0">&nbsp; Remover Torre</p>
-                <small class=" fw-light">Reinicia o jogo</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <KeyButton
+          v-on:handleClick="handleInput(keys.addTower)"
+          :keyName="keys.addTower"
+          title="Adicionar peça"
+          subtitle="Reinicia o jogo"
+        />
+        <KeyButton
+          v-on:handleClick="handleInput(keys.deleteTower)"
+          :keyName="keys.deleteTower"
+          title="Remover peça"
+          subtitle="Reinicia o jogo"
+        />
       </div>
 
       <div class="row g-3 align-items-stretch mb-3">
@@ -180,6 +154,7 @@
 
 <script>
 import Tower from './components/Tower.vue';
+import KeyButton from './components/KeyButton.vue';
 
 // Default hotkeys mapping
 function defaultKeys(tryLocalStorage = false) {
@@ -221,6 +196,7 @@ function loadData(pieces, keys) {
 export default {
   name: 'Hanoi Tower',
   components: {
+    KeyButton,
     Tower
   },
   data: () => (loadData(7, defaultKeys())),

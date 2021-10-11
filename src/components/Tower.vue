@@ -1,15 +1,11 @@
 <template>
     <div class="col">
-        <div :class="`p-2 shadow card mb-3 d-none d-md-block ${bgColor} text-light border-light`">
-            <div class="d-flex justify-content-center align-items-center flex-row">
-                <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">
-                    {{ keyName }}
-                </div>
-                <div class="d-flex justify-content-start align-items-center flex-column">
-                    <p class="mb-0">&nbsp; {{ arrow }}</p>
-                </div>
-            </div>
-        </div>
+        <KeyButton
+          v-on:handleClick="()=>{}"
+          :keyName="`${keyName}`"
+          :title="arrow"
+          :wrapperClass="bgColor"
+        />
         <div class="card shadow p-md-2 d-flex justify-content-end align-items-center flex-column tower">
             <Piece
             v-for="(piece, pieceIndex) in pieces"
@@ -24,15 +20,17 @@
 
 <script>
 import Piece from './Piece.vue';
+import KeyButton from './KeyButton.vue';
 
 export default {
   name: "Tower",
   components: {
-    Piece
+    Piece,
+    KeyButton
   },
   props: {
     towerIndex: Number,
-    keyName:        String,
+    keyName:    String,
     pieces:     Array,
     selected:   Number,
   },
