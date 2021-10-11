@@ -25,11 +25,11 @@
 
       <div class="row  g-1 g-md-3">
 
-        <div class="col" v-for="tower, tower_index in towers" :key="`tower_${tower_index}`" v-on:click="handleInput(tower_index+1)">
+        <div class="col" v-for="tower, tower_index in towers" :key="`tower_${tower_index}`" v-on:click="handleInput(keys.towers[tower_index])">
 
-          <div :class="`p-2 shadow card mb-3 d-none d-md-block ${tower.includes(selected)?`bg-${colors[selected-1]} text-light border-light`: ''}`"  v-on:click="handleInput(tower_index+1)">
+          <div :class="`p-2 shadow card mb-3 d-none d-md-block ${tower.includes(selected)?`bg-${colors[selected-1]} text-light border-light`: ''}`">
             <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">{{tower_index+1}}</div>  
+              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">{{keys.towers[tower_index] == ' ' ? '␣' : keys.towers[tower_index]}}</div>  
               <div class="d-flex justify-content-start align-items-center flex-column">
                 <p class="mb-0">&nbsp; {{selected >= 0 ? '⇣' : '⇡'}}</p>
               </div>
@@ -44,10 +44,26 @@
 
       <div class="row g-3 mt-1">
 
-        <div class="col text-center" v-on:click="handleInput(' ')">
+        <div class="col text-left">
+          <div class="p-2 mb-3 d-block">
+            <div class="d-flex justify-content-start align-items-center flex-row-reverse overflow-auto w-100">
+              <small class="px-4 py-1 rounded-pill bg-light shadow text-muted fs-6 m-2" v-for="movement, movement_index in lastMoves" :key="`movement_${movement_index}`">
+                {{towerNames[movement.from]}} ⇢ {{towerNames[movement.to]}}
+              </small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row g-3 mt-1">
+
+        <div class="col text-center" v-on:click="handleInput(keys.undoMovement)">
           <div class="p-2 shadow card mb-3 d-block ">
             <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted w-10 d-none d-md-block">␣</div>  
+              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted w-10 d-none d-md-block">
+                {{keys.undoMovement == ' ' ? '␣' : keys.undoMovement}}  
+              </div>  
               <div class="d-flex justify-content-start align-items-center flex-column">
                 <p class="mb-0">&nbsp; Desfazer último movimento</p>
               </div>
@@ -59,10 +75,12 @@
 
       <div class="row g-3">
 
-        <div class="col text-center" v-on:click="handleInput('A')">
+        <div class="col text-center" v-on:click="handleInput(keys.addTower)">
           <div class="p-2 shadow card mb-3 d-block ">
             <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">A</div>  
+              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">
+                {{keys.addTower == ' ' ? '␣' : keys.addTower}}  
+              </div>  
               <div class="d-flex justify-content-start align-items-center flex-column">
                 <p class="mb-0">&nbsp; Adicionar torre</p>
                 <small class=" fw-light">Reinicia o jogo</small>
@@ -71,10 +89,12 @@
           </div>
         </div>
 
-        <div class="col text-center" v-on:click="handleInput('R')">
+        <div class="col text-center" v-on:click="handleInput(keys.deleteTower)">
           <div class="p-2 shadow card mb-3 d-block ">
             <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">D</div>  
+              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">
+                {{keys.deleteTower == ' ' ? 'D' : keys.deleteTower}}                  
+              </div>  
               <div class="d-flex justify-content-start align-items-center flex-column">
                 <p class="mb-0">&nbsp; Remover Torre</p>
                 <small class=" fw-light">Reinicia o jogo</small>
@@ -85,14 +105,70 @@
 
       </div>
 
-      <div class="row g-3">
+      <div class="row g-3 align-items-stretch mb-3">
 
-        <div class="col text-center" v-on:click="handleInput('R')">
-          <div class="p-2 shadow card mb-3 d-block ">
-            <div class="d-flex justify-content-center align-items-center flex-row">
-              <div class="bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">R</div>  
-              <div class="d-flex justify-content-start align-items-center flex-column">
+        <div class="h-100 col text-center" v-on:click="handleInput(keys.resetGame)">
+          <div class="h-100 p-2 shadow card d-block ">
+            <div class="h-100 d-flex justify-content-center align-items-center flex-row">
+              <div class="h-100 bg-light px-2 py-1 rounded shadow me-2 fw-bold text-muted d-none d-md-block">
+                {{keys.resetGame == ' ' ? '␣' : keys.resetGame}}    
+              </div>  
+              <div class="h-100 d-flex justify-content-start align-items-center flex-column">
                 <p class="mb-0">&nbsp; Reiniciar o jogo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col text-center" data-bs-toggle="modal" data-bs-target="#configModal">
+          <div class="h-100 p-2 shadow card d-block ">
+            <div class="h-100 d-flex justify-content-center align-items-center flex-column">
+              <p class="mb-0">Configurar Atalhos</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Atalhos -->
+        <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content card shadow">
+              <div class="modal-header">
+                <h5 class="modal-title" id="configModalLabel">Atalhos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3 form-group">
+                  <label>Selecionar/Posicionar Torre Esquerda</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[0]">
+                </div>
+                <div class="mb-3 form-group">
+                  <label>Selecionar/Posicionar Torre Centro</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[1]">
+                </div>
+                <div class="mb-3 form-group">
+                  <label>Selecionar/Posicionar Torre Direita</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.towers[2]">
+                </div>
+                <div class="mb-3 form-group">
+                  <label>Desfazer movimento</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.undoMovement">
+                </div>
+                <div class="mb-3 form-group">
+                  <label>Adicionar peça</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.addTower">
+                </div>
+                <div class="mb-3 form-group">
+                  <label>Remover peça</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.deleteTower">
+                </div>
+                <div class="mb-3 form-group">
+                  <label>Reiniciar o jogo</label>
+                  <input class="form-control card" type="text" minlength="1" maxlength="1" v-model="keys.resetGame">
+                </div>
+              </div>
+              <div class="modal-footer d-flex justify-content-between flex-row align-items-center">
+                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-light btn-sm" v-on:click="setDefaultKeys">Voltar ao padrão</button>
               </div>
             </div>
           </div>
@@ -111,12 +187,24 @@
 
 <script>
 
+function defaultKeys(tryLocalStorage = false) {
+  let keys = {
+    towers:       ['1','2','3'],
+    addTower:     'A',
+    deleteTower:  'D',
+    undoMovement: ' ',
+    resetGame:    'R'
+  }
+  return tryLocalStorage ? (JSON.parse(localStorage.getItem('keys')) || keys) : keys;
+}
+
 // Generates initial state
-function loadData(pieces) {
+function loadData(pieces, keys) {
   return {
     // Tower & Pieces
     pieces: pieces,
     colors: ['primary', 'success', 'warning', 'danger', 'info', 'secondary', 'dark', 'light'],
+    towerNames: ['Left', 'Center', 'Right'],
     towers: [
       Array.from({length: pieces}, (_, i) => i + 1), // returns [1, 2, 3, 4, 5, ... pieces]
       [],
@@ -126,6 +214,7 @@ function loadData(pieces) {
     solved: false,
     moves:  0,
     // Controls
+    keys,
     lastMoves:  [],
     selected:   -1,
     currMove:   {
@@ -137,20 +226,26 @@ function loadData(pieces) {
 
 export default {
   name: 'Hanoi Tower',
-  data: () => (loadData(7)),
+  data: () => (loadData(7, defaultKeys())),
   // KeyDown event association
   created() {
     document.addEventListener('keydown', (event) => {
-      let key = event.key.toUpperCase();
-      if(key != 1 && key != 2 && key != 3 && key != ' ' &&  key != 'A' && key != 'D' && key != 'R') { return; }
-      event.preventDefault();
-      this.handleInput(key);
+      let key           = event.key.toUpperCase();
+      let possibleKeys  = Object.values(this.keys).concat(Object.values(this.keys.towers));
+      let isModalOpen   = document.getElementById('configModal').className.includes('show');
+      if(possibleKeys.findIndex((commandKey) => (commandKey == key)) >= 0 && !isModalOpen) {
+        event.preventDefault();
+        this.handleInput(key);
+      }
     });
   },
   methods: {
+    setDefaultKeys() {
+      this.keys = defaultKeys();
+    },
     // Reload initial state
     restart() {
-      Object.assign(this.$data, loadData(this.pieces));
+      Object.assign(this.$data, loadData(this.pieces, this.keys));
     },
     // Check if game is solved
     verifySolution() {
@@ -172,18 +267,18 @@ export default {
         this.moves--;
       }
     },
-    inputGetPiece(key) {
-      this.selected = this.towers[key-1][0];
-      this.updateCurrMove('from', key-1);
+    inputGetPiece(towerId) {
+      this.selected = this.towers[towerId][0];
+      this.updateCurrMove('from', towerId);
     },
     // Try to put piece into tower [ true - valid input / false - invalid input ]
-    inputPutPiece(key) {
+    inputPutPiece(towerId) {
         // If piece is smaller than tower top piece or tower is empty
-        if(this.selected < this.towers[key-1][0] || this.towers[key-1].length == 0) {
-          this.updateCurrMove('to', key-1);
+        if(this.selected < this.towers[towerId][0] || this.towers[towerId].length == 0) {
+          this.updateCurrMove('to', towerId);
           // Remove piece from original tower and insert into new tower
           this.towers.find((tower) => (tower.includes(this.selected))).shift();
-          this.towers[key-1].unshift(this.selected);
+          this.towers[towerId].unshift(this.selected);
           // Unselect current piece and increment movement
           this.selected = -1;
           this.moves++;
@@ -191,7 +286,7 @@ export default {
         }
 
         // If tower is origin tower just unselect piece
-        if(this.selected == this.towers[key-1][0]){
+        if(this.selected == this.towers[towerId][0]){
           this.selected = -1;
           return true;
         }
@@ -202,39 +297,42 @@ export default {
     handleInput(key) {
       // If game solved, do nothing but reset when space is pressed
       if(this.solved) {
-        if(key == ' ') {
+        if(key == this.keys.undoMovement) {
           this.restart();
         }
         return;
       }
 
       // Adding pieces
-      if(key == 'A') {
+      if(key == this.keys.addTower) {
         this.pieces = this.pieces < this.colors.length ? this.pieces + 1 : this.pieces;
         return this.restart(); 
       }
 
       // Removing pieces
-      if(key == 'D') {
+      if(key == this.keys.deleteTower) {
         this.pieces = this.pieces > 2 ? this.pieces - 1 : this.pieces;
         return this.restart(); 
       }
 
       // Reseting game
-      if(key == 'R') {
+      if(key == this.keys.resetGame) {
         return this.restart(); 
       }
 
       // Space
-      if(key == ' ' && this.lastMoves.length > 0){
+      if(key == this.keys.undoMovement && this.lastMoves.length > 0){
+        this.selected = -1;
         return this.inputUndoStep();
       }
 
+      let towerIndex = Object.values(this.keys.towers).indexOf(key);
+
       if(this.selected >= 0) {
-        this.inputPutPiece(key);
+        this.inputPutPiece(towerIndex);
       }
       else if(this.selected == -1) {
-        this.inputGetPiece(key);
+        this.inputGetPiece(towerIndex);
       }
 
       this.verifySolution();
