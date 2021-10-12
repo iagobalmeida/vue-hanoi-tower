@@ -1,6 +1,6 @@
 # Vue Hanoi Tower
-
-Made with Vue JS & Bootstrap 5
+https://img.shields.io/badge/%F0%9F%93%9A-Bootstrap_5-blueviolet
+https://img.shields.io/badge/%F0%9F%93%9A-Vue_3-green
 
 ## How to play
 ```
@@ -39,6 +39,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
