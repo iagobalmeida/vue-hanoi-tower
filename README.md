@@ -17,9 +17,13 @@ Where 'n' is the number of pieces in the game.
 
 ### Hotkeys
 ![1](https://img.shields.io/badge/%20%20-1-white)&nbsp;&nbsp;![2](https://img.shields.io/badge/%20%20-2-white)&nbsp;&nbsp;![3](https://img.shields.io/badge/%20%20-3-white)  &nbsp; Get piece from / Put piece on top of tower
+
 ![Space](https://img.shields.io/badge/%20%20-%20␣%20-white)  &nbsp; Undo last movement
+
 ![A](https://img.shields.io/badge/%20%20-A-white) &nbsp; Add piece to game ( restarts the game )
+
 ![D](https://img.shields.io/badge/%20%20-D-white) &nbsp; Remove piece from game ( restarts the game )
+
 ![R](https://img.shields.io/badge/%20%20-R-white) &nbsp; Restart the game
 
 *All the hotkeys are configurable.*
